@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>У меня есть к тебе вопрос... ✨</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffe5ec, #ffc2d1);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            text-align: center;
+        }
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: 0 10px 30px rgba(255, 75, 110, 0.2);
+            max-width: 400px;
+            width: 90%;
+            z-index: 10;
+            position: relative;
+        }
+        h1 {
+            color: #ff4b6e;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+        p {
+            color: #4a4a4a;
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .gif-container {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            height: 50px;
+        }
+        button {
+            padding: 12px 35px;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        #yesBtn {
+            background-color: #ff4b6e;
+            color: white;
+            box-shadow: 0 5px 15px rgba(255, 75, 110, 0.4);
+        }
+        #yesBtn:hover {
+            transform: scale(1.05);
+            background-color: #ff2a53;
+        }
+        #noBtn {
+            background-color: #f0f0f0;
+            color: #666;
+            position: absolute;
+            right: 40px;
+        }
+        /* Экран успеха */
+        .success-screen {
+            display: none;
+        }
+        .success-screen h1 {
+            color: #2ec4b6;
+        }
+        /* Сердечки на фоне */
+        .heart {
+            position: absolute;
+            color: rgba(255, 75, 110, 0.4);
+            font-size: 20px;
+            animation: float 4s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="mainCard">
+        <div class="gif-container">💌</div>
+        <h1>Привет! Пойдёшь со мной на свидание?</h1>
+        <p>Я обещаю вкусный кофе, отличные истории и самую классную компанию! 😉</p>
+        <div class="buttons">
+            <button id="yesBtn" onclick="sayYes()">Да!</button>
+            <button id="noBtn" onmouseover="moveButton()" onclick="moveButton()">Нет</button>
+        </div>
+    </div>
+
+    <div class="card success-screen" id="successCard">
+        <div class="gif-container">🎉❤️✨</div>
+        <h1>Ура-а-а! 🎉</h1>
+        <p>Отличный выбор! Напиши мне в чат, чтобы мы договорились о времени и месте. Жду с нетерпением! 🥰</p>
+    </div>
+
+    <script>
+        // Функция для убегания кнопки "Нет"
+        function moveButton() {
+            const noBtn = document.getElementById('noBtn');
+            // Случайные координаты в пределах экрана, но недалеко от центра
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 40);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 40);
+            
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        // Функция при нажатии "Да"
+        function sayYes() {
+            document.getElementById('mainCard').style.display = 'none';
+            document.getElementById('successCard').style.display = 'block';
+            createHearts();
+        }
+
+        // Эффект взрыва сердечек
+        function createHearts() {
+            for(let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('heart');
+                    heart.innerText = '❤️';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    heart.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => heart.remove(), 4000);
+                }, i * 100);
+            }
+        }
+    </script>
+</body>
+</html>
